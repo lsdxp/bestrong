@@ -1,0 +1,16 @@
+    def minTime(self, n: int, edges: List[List[int]], hasApple: List[bool]) -> int:
+        tree = defaultdict(list)
+        for s,e in edges:
+            tree[s].append(e)
+            tree[e].append(s)
+
+        def dfs(node,par):
+            cos = 0
+            for near in tree[node]:
+                if near != par:
+                    cos += dfs(near,node)
+            if hasApple[node] or cos:
+                return cos + 2            
+            return cos
+        
+        return max(dfs(0,-1)-2,0)
