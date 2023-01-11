@@ -1,0 +1,23 @@
+class Solution:
+    def maximumCount(self, nums: List[int]) -> int:
+        def bisect_left(n,x):
+            lo, hi=0,len(n)
+            while lo < hi:
+                mid = lo + (hi - lo) // 2
+                if n[mid] < x:
+                    lo = mid + 1
+                else:
+                    hi = mid
+            return lo
+        def bisect_right(n,x):
+            lo, hi=0,len(n)
+            while lo < hi:
+                mid = lo + (hi - lo) // 2
+                if n[mid] < x:
+                    lo = mid + 1
+                else:
+                    hi = mid
+            return lo
+        maxpos=len(nums) - bisect_right(nums,1)
+        maxneg=bisect_left(nums,0) 
+        return max(maxpos,maxneg)
