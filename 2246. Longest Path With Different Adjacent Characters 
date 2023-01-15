@@ -1,0 +1,22 @@
+class Solution:
+    def longestPath(self, parent: List[int], s: str) -> int:
+        tree=defaultdict(list)
+        for i in range(len(parent)):
+            tree[parent[i]].append(i)
+        print(tree)
+        longest=1
+        def dfs(node):
+            nonlocal longest
+            max1=max2=0
+            for n in tree[node]:
+                nl=dfs(n)
+                if s[n]!=s[node]:
+                    if nl>max1:
+                        max2=max1
+                        max1=nl
+                    elif nl>max2:
+                        max2=nl
+            longest=max(longest,max1+1+max2)
+            return max1+1
+        dfs(0)
+        return longest
