@@ -1,0 +1,15 @@
+class Solution:
+    def subarraysDivByK(self, nums: List[int], k: int) -> int:
+        remainderFrq = {}
+        prefixSum=0
+        ans=0
+        remainderFrq[0] = 1
+        for i in range(0,len(nums)):
+            prefixSum+=nums[i]
+            remainder = prefixSum % k                
+            if remainder in remainderFrq:
+                ans+=remainderFrq[remainder]
+                remainderFrq[remainder]+=1
+            else:
+                remainderFrq[remainder]=1
+        return ans
