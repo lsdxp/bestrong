@@ -1,0 +1,18 @@
+class Solution:
+    def findSubsequences(self, nums: List[int]) -> List[List[int]]:
+        ans = set()
+        sequence = []
+
+        def recursion_track(l,sequence):
+            if l == len(nums):
+                if len(sequence) >=2:
+                    ans.add(tuple(sequence))
+                return
+            else:
+                if not sequence or nums[l] >= sequence[-1]:
+                    sequence.append(nums[l])
+                    recursion_track(l+1,sequence)
+                    sequence.pop()
+            recursion_track(l+1,sequence)
+        recursion_track(0,sequence)
+        return ans
