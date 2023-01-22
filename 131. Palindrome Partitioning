@@ -1,0 +1,14 @@
+class Solution:
+    def partition(self, s: str) -> List[List[str]]:
+        res = []
+        def dfs(i,sequence):
+            if i==len(s):
+                res.append(sequence)
+                return
+            for j in range(i,len(s)):
+                tmp = s[i:j+1]
+                if tmp == tmp[::-1]:
+                    dfs(j+1,sequence+[tmp])
+            return
+        dfs(0,[])
+        return res
