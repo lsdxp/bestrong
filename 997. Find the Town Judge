@@ -1,0 +1,20 @@
+class Solution:
+    def findJudge(self, n: int, trust: List[List[int]]) -> int:
+        ans=-1
+        trustOthers={}
+        trusted={}
+        candidate=1
+        max_trust=0
+        for r in trust:
+            if r[0] not in trustOthers:
+                trustOthers[r[0]]=1
+            if r[1] not in trusted:
+                trusted[r[1]]=1
+            else:
+                trusted[r[1]]+=1
+            if trusted[r[1]] > max_trust:
+                max_trust=trusted[r[1]]
+                candidate=r[1]
+        if candidate not in trustOthers and max_trust == n-1:
+            ans=candidate
+        return ans
