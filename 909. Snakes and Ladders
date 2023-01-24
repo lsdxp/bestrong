@@ -1,0 +1,27 @@
+class Solution:
+    def snakesAndLadders(self, board: List[List[int]]) -> int:
+        from collections import deque
+        n = len(board)
+        indexLocation = [None] * (n**2 + 1)
+        index = 1
+        columns = list(range(0, n))
+        for r in range(n - 1, -1, -1):
+            for c in columns:
+                indexLocation[index] = (r, c)
+                index += 1
+            columns.reverse()
+        distance = [-1] * (n**2 + 1)
+        q = deque([1])
+        distance[1] = 0
+        while q:
+            curr = q.popleft()
+            for next in range(curr + 1, min(curr + 6, n**2) + 1):
+                r, c = indexLocation[next]
+                if board[r][c] != -1:
+                    destination = board[r][c]
+                else:
+                    destination = next
+                if distance[destination] == -1:
+                    distance[destination] = distance[curr] + 1
+                    q.append(destination)
+        return distance[n**2]
