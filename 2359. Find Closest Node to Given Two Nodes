@@ -1,0 +1,27 @@
+class Solution:
+    def closestMeetingNode(self, edges: List[int], node1: int, node2: int) -> int:
+        from collections import deque
+        def bfs(node,edges):
+            dist=[-1] * len(edges)
+            visit=[-1] * len(edges)
+            q=deque([node])
+            dist[node]=0
+            visit[node]=1
+            while q:
+                n=q.popleft()
+                if visit[edges[n]] == -1 and edges[n] != -1:
+                    q.append(edges[n])
+                    dist[edges[n]]=dist[n]+1
+                visit[n]=1
+            return dist
+        dist1=bfs(node1,edges)
+        dist2=bfs(node2,edges)
+        ans=-1
+        curr=float('inf')
+        for index in range(len(edges)):
+            if dist1[index]!=-1 and dist2[index]!=-1:
+                val=max(dist1[index],dist2[index])
+                if curr>val:
+                    curr=val
+                    ans=index
+        return ans
