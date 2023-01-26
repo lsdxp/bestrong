@@ -1,0 +1,84 @@
+class Solution:
+    def findCheapestPrice(self, n: int, flights: List[List[int]], src: int, dst: int, k: int) -> int:
+        dis = [-1 for _ in range(n)]
+        dis[src]=0
+        q=deque([src])
+        graph=defaultdict(list)
+        for item in flights:
+                graph[item[0]].append([item[1],item[2]])
+        step=0
+        while q and step <= k:
+            sz = len(q)
+            new_dis = dis.copy()
+            for _ in range(sz):
+                cur = q.popleft()
+                for neighbor in graph[cur]:
+                    if new_dis[neighbor[0]] == -1 or new_dis[neighbor[0]] > dis[cur]+neighbor[1]:
+                        new_dis[neighbor[0]] = dis[cur] + neighbor[1]
+                        q.append(neighbor[0])
+            step += 1
+            dis = new_dis
+        return dis[dst]
+
+
+# class Solution:
+#     def findCheapestPrice(self, n: int, flights: List[List[int]], src: int, dst: int, k: int) -> int:
+#         visit = [-1] * n
+#         fee = [-1] * n
+#         fee[src]=0
+#         visit[src]=1
+#         from collections import deque
+#         q=deque([src])
+#         distance=deque([0])
+#         ans=-1
+#         flightParse={}
+#         for item in flights:
+#             if item[0] not in flightParse:
+#                 flightParse[item[0]]={item[1]:item[2]}
+#             else:
+#                 flightParse[item[0]][item[1]]=item[2]
+#         stops=0
+#         while stops<=k and q:
+#             levelsize = len(q)
+#             while levelsize>0:
+#                 node=q.popleft()
+#                 dis=distance.popleft()
+#                 if node in flightParse:
+#                     for neighbor,price in flightParse[node].items():
+#                             q.append(neighbor)
+#                             if fee[neighbor]==-1:
+#                                 fee[neighbor] = dis + price
+#                             elif fee[neighbor] > (dis + price):
+#                                 fee[neighbor] = dis + price
+#                             distance.append(fee[node] + price)
+#                 levelsize-=1
+#             stops+=1
+#         if fee[dst] != -1:
+#             ans=fee[dst]
+#         return ans
+                        
+
+
+
+# class Solution:
+#     def findCheapestPrice(self, n: int, flights: List[List[int]], src: int, dst: int, k: int) -> int:
+#         fee = [-1 for _ in range(n)]
+#         fee[src]=0
+#         q=deque([[src,0]])
+#         flightParse=defaultdict(list)
+#         for item in flights:
+#                 flightParse[item[0]].append([item[1],item[2]])
+#         stops=0
+#         while q and stops<=k:
+#             levelsize = len(q)
+#             for _ in range(levelsize):
+#                 [node,dis]=q.popleft()
+#                 if node in flightParse:
+#                     for pack in flightParse[node]:
+#                             q.append([pack[0],fee[node] + pack[1]])
+#                             if fee[pack[0]]==-1 or fee[pack[0]] > (dis + pack[1]):
+#                                 fee[pack[0]] = dis + pack[1]
+#             stops+=1
+#         return fee[dst]
+
+
